@@ -1,6 +1,74 @@
-<div class="container">
-  <p>
-    contact works!
-  </p>
+<div id="contact-form">
+  <script type="text/javascript">
+    var RecaptchaOptions = {
+      theme: 'clean'
+    };
+  </script>
 
+  <form #contactForm="ngForm" action="/mail" method="post" (ngSubmit)="onSubmit($event, contactForm.value)">
+    <div class="content">
+      <h2>Leave us a message</h2>
+    </div>
+    <div class="form-group">
+      <input ngModel required minlength="3" maxlength="25" #name="ngModel" type="text" name="name"
+        placeholder="Your Name*">
+      <div class="alert alert-danger" *ngIf="name.touched && !name.valid">
+        <div *ngIf="name.errors.required">
+          Name is required.
+        </div>
+        <div *ngIf="name.errors.minlength">
+          Name must be longer than {{name.errors.minlength.requiredLength}} characters.
+        </div>
+        <div *ngIf="name.errors.maxlength">
+          Name must not exceed than {{name.errors.maxlength.requiredLength}} characters.
+        </div>
+      </div>
+    </div>
+    <div class="form-group">
+      <input ngModel required pattern="^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$" #email="ngModel" name="email"
+        type="email" placeholder="Your Email*">
+      <div class="alert alert-danger" *ngIf="email.touched && !email.valid">
+        <div *ngIf="email.errors.required">
+          Email is required.
+        </div>
+        <div *ngIf="email.errors.pattern">
+          Please enter a valid email.
+        </div>
+      </div>
+    </div>
+    <div class="form-group">
+      <input ngModel pattern="^\(?([0-9]{3})\)?[-. ]?([0-9]{3})[-. ]?([0-9]{4})$" #phone="ngModel" name="phone"
+        type="tel" placeholder="Your Phone">
+      <div class="alert alert-danger" *ngIf="phone.touched && !phone.valid">
+        <div *ngIf="phone.errors.pattern">
+          Please enter a vallid phone number.
+        </div>
+      </div>
+    </div>
+    <div class="form-group">
+      <textarea ngModel required type="text" minlength="10" #inquiry="ngModel" name="inquiry"
+        placeholder="Your Inquiry?*"></textarea>
+      <div class="alert alert-danger" *ngIf="inquiry.touched && !inquiry.valid">
+        <div *ngIf="inquiry.errors.required">
+          What are you inquiring about?
+        </div>
+
+        <div *ngIf="inquiry.errors.minlength">
+          This message must be longer than {{inquiry.errors.minlength.requiredLength}} characters.
+        </div>
+
+      </div>
+    </div>
+    <!--
+    <re-captcha class="re-captcha" (resolved)="resolved($event)" data-size="compact"
+      siteKey="6Lf99nYUAAAAAHpIeLp1zYETawuYCLxOIJ4PBxPO"></re-captcha>-->
+    <div class="form-group text-left">
+      <button type="submit" id="submitBtn" class="btn-1">SEND</button>
+      <div *ngIf="this.submit;">
+        We will contact you soon.
+      </div>
+    </div>
+  </form>
+  <!-- End of Content -->
+  <!-- End of Content Cointainer -->
 </div>
